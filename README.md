@@ -3,7 +3,16 @@
 
 ![Architecture Diagram](screenshots/aws.jpg?raw=true "Architecture Diagram")
 
-This is built in . This application fetches data from Elasticache Redis and show visitor count.
+## Terraform script for 2 Tier Architecture
+These scripts create:
+* Standard Public and Private Subnets across 3 Azs for maximum high availability
+* Public Subnet as standard is routed to internet gateway and attached to a NAT Gateway
+* Application are built as Docker image and pushed to ECR
+* Application runs on ECS Fargate to reduce the effort to run underlying infrastructure
+* Application are configured with autoscaling policy based on CPU and Memory
+* Application is Load Balanced with an ALB and perform Layer 7 Http Check
+* Database runs on RDS MySQL multi-AZ setup for high availability. Running on RDS reduce the effort to run the underlying infrastructure. Its running in the private subnet to block internet traffic
+
 
 ## How to run this on your own?
 1. Initialize and Create multiple workspace
@@ -12,21 +21,31 @@ terraform init
 terraform workspace new dev
 terraform workspace new uat
 terraform workspace new prod
+terraform workspace select dev
 ```
+2. Create variable terraform file `var.tf`
+```
+variable "AWS_REGION" {    
+    default = "ap-southeast-1"
+}
 
-1. Add secret key AWS_ACCESS_KEY, AWS_SECRET_KEY
-1. Update vars.tf for both AWS_ACCESS_KEY, AWS_SECRET_KEY
-1. Run Terraform Script
-`terraform apply`
-1. Any feature branch PR triggers pipeline
-`.github\workflows\go.yml`
-1. Run following command to get your ALB DNS Name to visit your website
-` aws elbv2 describe-load-balancers --output text --query "LoadBalancers[?LoadBalancerName =='go-redis'].DNSName"`
+variable "AWS_SECRET_KEY" {    
+    default = "SECRET_KEY"
+}
 
+variable "AWS_ACCESS_KEY" {    
+    default = "ACCESS_KEY"
+}
+```
+3. Apply terraform script
+```
+terraform plan
+terraform apply
+```
+4. Create DB Schema via Lambda function
 
-DB_ADDRESS=`aws rds describe-db-instances --output text --query "DBInstances[?DBClusterIdentifier == 'dev-node-app-rds'].Endpoint.Address"`
-
-
-
-
+```
+chmod +x deploy_lambda.sh
+./deploy_lambda.sh
+```
 
