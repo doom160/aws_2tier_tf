@@ -10,7 +10,7 @@ These scripts create:
 * Application are built as Docker image and pushed to ECR
 * Application runs on ECS Fargate to reduce the effort to run underlying infrastructure
 * Application are configured with autoscaling policy based on CPU and Memory
-* Application is Load Balanced with an ALB and perform Layer 7 Http Check
+* Application is Load Balanced with an ALB and perform Layer 7 Http Check. On the ECS task definition, it can define Layer 4 TCP Check.
 * Database runs on RDS MySQL multi-AZ setup for high availability. Running on RDS reduce the effort to run the underlying infrastructure. Its running in the private subnet to block internet traffic
 * Separate Lambda function to create the default schema for the database as database is located in private subnet
 
