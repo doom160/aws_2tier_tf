@@ -24,19 +24,11 @@ terraform workspace new uat
 terraform workspace new prod
 terraform workspace select dev
 ```
-2. Create variable terraform file `var.tf`
+2. Create variable terraform file `terraform.tfvars`
 ```
-variable "AWS_REGION" {    
-    default = "ap-southeast-1"
-}
-
-variable "AWS_SECRET_KEY" {    
-    default = "SECRET_KEY"
-}
-
-variable "AWS_ACCESS_KEY" {    
-    default = "ACCESS_KEY"
-}
+AWS_REGION="ap-southeast-1"
+AWS_SECRET_KEY="SECRET_KEY"
+AWS_ACCESS_KEY="ACCESS_KEY"
 ```
 3. Apply terraform script
 ```
