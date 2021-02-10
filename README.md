@@ -15,6 +15,13 @@ These scripts create:
 * Separate Lambda function to create the default schema for the database as database is located in private subnet
 
 
+## Disclaimer
+This setup is not fully readily PROD setup due to following points
+* Security Groups are open to the whole vpc, which ideally should be open to ports that required. It was done intentionally for simplicity of development and testing
+* DB in this setup is running t2.small which is not production grade
+* DB can be further enhanced to use read replicas
+* ECR can be replaced with EKS. ECS was chosen as it was taken from TF template developed earlier by me for simplicity of development
+
 ## How to run this on your own?
 1. Initialize and Create multiple workspace
 ```
