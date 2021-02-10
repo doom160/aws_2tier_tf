@@ -4,7 +4,7 @@ WORKSPACE=`pwd`
 
 # Package Artifact
 rm -f src/generate_rds_schema/generate_rds_schema.zip
-cd src/generate_rds_schema && pip install --target packages pymysql && zip generate_rds_schema.zip *
+cd src/generate_rds_schema && pip install --target . pymysql && zip generate_rds_schema.zip *
 
 # Create Role
 cd $WORKSPACE
